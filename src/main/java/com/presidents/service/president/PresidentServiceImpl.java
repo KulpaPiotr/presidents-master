@@ -52,14 +52,20 @@ public class PresidentServiceImpl implements PresidentService {
 
     @Override
     public PresidentDto updatePresident(PresidentDto presidentDto) {
-        return presidentsRepository.findById(presidentDto.getId()).map(president -> {
-            president.setName(presidentDto.getName());
-            president.setSurname(presidentDto.getSurname());
-            president.setPoliticalParty(presidentDto.getPoliticalParty());
-            president.setTermFrom(presidentDto.getTermFrom());
-            president.setTermTo(presidentDto.getTermTo());
-            return PresidentMapper.toDto(president);
-        }).get();
+        var president = presidentsRepository.findById(presidentDto.getId());
+        if (president.isPresent()) {
+            president.map(p -> {
+                p.setName(presidentDto.getName());
+                p.setSurname(presidentDto.getSurname());
+                p.setPoliticalParty(presidentDto.getPoliticalParty());
+                p.setTermFrom(presidentDto.getTermFrom());
+                p.setTermTo(presidentDto.getTermTo());
+                return PresidentMapper.toDto(p);
+            });
+        } else {
+            return PresidentMapper.toDto(presidentsRepository.save(PresidentMapper.toEntity(presidentDto)));
+        }
+        return presidentDto;
     }
 
     public PresidentDto updatePresidentPartial(PresidentDto presidentDto) {
