@@ -43,20 +43,7 @@ public class PresidentsControllerIT {
     }
 
     @Test
-    public void whenPostPresidentAndIncorrectName_thenIncorrectResponse() throws Exception {
-        //given
-        var president = PresidentDto.builder().name("").build();
-
-        //when && then
-        mockMvc.perform(post("/presidents/save").content(toJson(president))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", containsInAnyOrder("Name must be between 1 and 255 characters")));
-
-    }
-
-    @Test
-    void whenPostRequestToProductAndInvalidProductNameAndDescription_thenIncorrectResponse() throws Exception {
+    void whenPostPresidentAndIncorrectName_thenIncorrectResponse() throws Exception {
         // given
         PresidentDto presidentDto = PresidentDto.builder()
                 .name("")

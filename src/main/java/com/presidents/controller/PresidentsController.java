@@ -22,6 +22,11 @@ public class PresidentsController {
         return presidentService.getAllPresidents();
     }
 
+    @GetMapping("/all-paginated")
+    public List<PresidentDto> getPresidentsPaginated(@RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
+        return presidentService.getAllPresidentsPaginated(pageNumber, pageSize).getContent();
+    }
+
     @PostMapping("save")
     @ResponseStatus(HttpStatus.CREATED)
     public PresidentDto save(@Valid @RequestBody PresidentDto presidentDto) {
@@ -58,4 +63,6 @@ public class PresidentsController {
     public Set<PresidentDto> findPresidentsByPoliticalParty(@PathVariable String party) {
         return presidentService.findPresidentsByPoliticalParty(party);
     }
+
+
 }
